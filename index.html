@@ -60,6 +60,11 @@
                                 <p class="mt-2 text-muted">Đang tải danh sách khóa học...</p>
                             </div>
                         </div>
+                        <div id="changeCourseSection" class="change-course-section px-3 pb-3" style="display: none;">
+                            <button id="changeCourseButton" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-exchange-alt me-2"></i>Đổi khóa học
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,13 +78,18 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-9 mb-3">
+                            <div class="col-md-8 mb-3">
                                 <input type="text" id="searchInput" class="form-control"
                                     placeholder="Nhập từ khóa tìm kiếm...">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2 mb-3">
                                 <button id="searchButton" class="btn btn-primary w-100">
                                     <i class="fas fa-search me-2"></i>Tìm kiếm
+                                </button>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <button id="clearButton" class="btn btn-outline-secondary w-100">
+                                    <i class="fas fa-times me-2"></i>Xóa
                                 </button>
                             </div>
                         </div>

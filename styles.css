@@ -325,3 +325,213 @@ footer {
     padding: 2rem 0;
     color: var(--dark-color);
 }
+
+#clearButton {
+    margin-left: 10px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#clearButton:hover {
+    background-color: #c82333;
+}
+
+/* Tối ưu chung cho mobile */
+@media (max-width: 768px) {
+    /* Điều chỉnh navbar */
+    .navbar {
+        padding: 0.5rem 1rem;
+    }
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    .nav-link {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    /* Điều chỉnh main content */
+    body main {
+        margin-top: 70px; /* Giảm margin-top để phù hợp với navbar nhỏ hơn */
+    }
+
+    /* Sidebar (danh sách khóa học) */
+    .sidebar {
+        padding: 0;
+        margin-bottom: 1rem;
+    }
+    #coursesContainer {
+        max-height: 300px; /* Giảm chiều cao tối đa trên mobile */
+        padding: 0.5rem;
+    }
+    .course-card {
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+    .course-category {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+    }
+
+    /* Search section */
+    .search-section .card-body {
+        padding: 1rem;
+    }
+    .form-control {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    .btn-primary,
+    #clearButton {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+    #clearButton {
+        margin-left: 0; /* Xóa margin-left trên mobile */
+    }
+
+    /* Results section */
+    #searchResults {
+        max-height: 400px; /* Giảm chiều cao tối đa trên mobile */
+        padding: 0.5rem;
+    }
+    .question-card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    .answer-card {
+        padding: 0.75rem;
+        margin-top: 0.75rem;
+    }
+    .no-results {
+        padding: 2rem 0;
+    }
+    .no-results i {
+        font-size: 2rem;
+    }
+    .no-results h4 {
+        font-size: 1.2rem;
+    }
+
+    /* Footer */
+    .footer {
+        padding: 1rem 0;
+        font-size: 0.9rem;
+    }
+}
+
+/* Tối ưu cho màn hình rất nhỏ (dưới 576px) */
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1rem;
+    }
+    .theme-switch {
+        width: 50px;
+        height: 28px;
+    }
+    .slider:before {
+        height: 20px;
+        width: 20px;
+        left: 4px;
+        bottom: 4px;
+    }
+    input:checked + .slider:before {
+        transform: translateX(22px);
+    }
+
+    .card-header {
+        padding: 1rem;
+    }
+    .card-header h5 {
+        font-size: 1.1rem;
+    }
+
+    #coursesContainer,
+    #searchResults {
+        max-height: 250px; /* Giảm thêm trên màn hình rất nhỏ */
+    }
+    .course-card {
+        font-size: 0.85rem;
+    }
+    .question-card h5 {
+        font-size: 1rem;
+    }
+    .answer-card h6 {
+        font-size: 0.9rem;
+    }
+}
+
+/* Tối ưu thanh cuộn cho mobile */
+#coursesContainer,
+#searchResults {
+    -webkit-overflow-scrolling: touch; /* Cuộn mượt trên iOS */
+}
+
+/* Tăng kích thước vùng chạm cho nút */
+.btn-primary,
+#clearButton {
+    min-height: 40px; /* Đảm bảo dễ chạm trên mobile */
+}
+
+/* Điều chỉnh màu nút Clear */
+#clearButton {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem; /* Tăng padding cho dễ chạm */
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+#clearButton:hover {
+    background-color: #c82333;
+}
+
+/* Dark mode trên mobile */
+@media (max-width: 768px) {
+    .dark-mode .card-body h5 {
+        color: #ffffff !important; /* Đảm bảo tiêu đề trắng trên dark mode */
+    }
+    .dark-mode .course-card {
+        background: #374151;
+    }
+    .dark-mode .question-card {
+        background: #1f2937;
+    }
+}
+
+/* Thêm vào styles.css */
+
+/* Phần đổi khóa học */
+.change-course-section {
+    text-align: center;
+}
+
+#changeCourseButton {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+#changeCourseButton:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Tối ưu cho mobile */
+@media (max-width: 768px) {
+    .change-course-section {
+        padding: 0.5rem 0;
+    }
+    #changeCourseButton {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+    .course-sidebar .card-body {
+        padding-bottom: 0; /* Giảm padding khi hiển thị nút */
+    }
+}

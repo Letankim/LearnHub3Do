@@ -26,7 +26,9 @@ function setupEventListeners() {
     }
 
     document.getElementById('searchButton')?.addEventListener('click', searchQuestions);
-    searchInput.addEventListener('input', debounce(searchQuestions, 500)); 
+    document.getElementById('clearButton')?.addEventListener('click', clearSearch);
+    document.getElementById('changeCourseButton')?.addEventListener('click', showCourseList); // Sự kiện cho nút đổi khóa học
+    searchInput.addEventListener('input', debounce(searchQuestions, 500));
     searchInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') searchQuestions();
     });
@@ -34,6 +36,33 @@ function setupEventListeners() {
         document.body.classList.toggle('dark-mode');
     });
     document.getElementById('courseSearch')?.addEventListener('input', filterCourses);
+}
+
+function clearSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    const searchInfo = document.getElementById('searchInfo');
+    const initialMessage = document.getElementById('initialMessage');
+    const container = document.getElementById('coursesContainer');
+    const changeCourseSection = document.getElementById('changeCourseSection');
+
+    searchInput.value = '';
+    questions = [];
+    searchResults.innerHTML = '';
+    if (initialMessage) {
+        initialMessage.style.display = 'block';
+    }
+    if (searchInfo) {
+        searchInfo.innerHTML = selectedCourseId 
+            ? `Khóa học: <strong>${courses.find(c => c.course_id === selectedCourseId).course_name}</strong>`
+            : 'Vui lòng chọn khóa học';
+    }
+    // Hiển thị lại danh sách khóa học nếu đang ẩn
+    if (changeCourseSection && changeCourseSection.style.display === 'block') {
+        container.style.display = 'block';
+        changeCourseSection.style.display = 'none';
+        displayCourses(courses);
+    }
 }
 
 async function loadCourses() {
@@ -65,8 +94,9 @@ async function loadCourses() {
 
 function displayCourses(courseList) {
     const container = document.getElementById('coursesContainer');
-    if (!container) {
-        console.error('Không tìm thấy coursesContainer');
+    const changeCourseSection = document.getElementById('changeCourseSection');
+    if (!container || !changeCourseSection) {
+        console.error('Không tìm thấy coursesContainer hoặc changeCourseSection');
         return;
     }
 
@@ -85,13 +115,16 @@ function displayCourses(courseList) {
         `;
         div.addEventListener('click', () => {
             document.querySelectorAll('.course-card').forEach(card => card.classList.remove('active'));
-            div.classList.add('active');
+            div.className = 'course-card active';
             selectedCourseId = course.course_id;
             selectedCourseFile = course.course_file;
             const searchInfo = document.getElementById('searchInfo');
             if (searchInfo) {
                 searchInfo.innerHTML = `Khóa học: <strong>${course.course_name}</strong>`;
             }
+            // Ẩn danh sách khóa học và hiển thị nút đổi khóa học
+            container.style.display = 'none';
+            changeCourseSection.style.display = 'block';
         });
         container.appendChild(div);
     });
@@ -122,11 +155,6 @@ function getCourseCategory(courseName) {
 
 async function searchQuestions() {
     const searchTerm = document.getElementById('searchInput')?.value.trim();
-    if (!selectedCourseId || !searchTerm) {
-        alert('Vui lòng chọn khóa học và nhập từ khóa tìm kiếm');
-        return;
-    }
-
     const loading = document.getElementById('loadingResults');
     const results = document.getElementById('searchResults');
     const initialMessage = document.getElementById('initialMessage');
@@ -140,11 +168,24 @@ async function searchQuestions() {
         return;
     }
 
+    if (!selectedCourseId || !searchTerm) {
+        results.innerHTML = `
+            <div class="no-results">
+                <i class="fas fa-info-circle mb-3"></i>
+                <h4>Vui lòng hoàn thiện</h4>
+                <p>${!selectedCourseId ? 'Chọn một khóa học' : ''} 
+                   ${!searchTerm ? (!selectedCourseId ? 'và ' : '') + 'nhập từ khóa tìm kiếm' : ''} để tiếp tục.</p>
+            </div>
+        `;
+        loading.style.display = 'none';
+        results.style.display = 'block';
+        if (initialMessage) initialMessage.style.display = 'none';
+        return;
+    }
+
     loading.style.display = 'block';
     results.style.display = 'none';
-    if(initialMessage) {
-        initialMessage.style.display = 'none';
-    }
+    if (initialMessage) initialMessage.style.display = 'none';
 
     try {
         const apiUrl = `https://letankim.id.vn/3do_resources/${selectedCourseFile}`;
@@ -220,4 +261,17 @@ function highlightSearchTerm(text, term) {
     if (!term) return text;
     const regex = new RegExp(`(${term})`, 'gi');
     return text.replace(regex, '<span class="highlight">$1</span>');
+}
+
+function showCourseList() {
+    const container = document.getElementById('coursesContainer');
+    const changeCourseSection = document.getElementById('changeCourseSection');
+    if (!container || !changeCourseSection) {
+        console.error('Không tìm thấy coursesContainer hoặc changeCourseSection');
+        return;
+    }
+
+    container.style.display = 'block';
+    changeCourseSection.style.display = 'none';
+    displayCourses(courses);
 }
